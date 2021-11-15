@@ -50,3 +50,7 @@ hr {
 .pagination {
   @include elr-pagination;
 }
+
+.pagination-bar {
+  @include elr-pagination-bar;
+}

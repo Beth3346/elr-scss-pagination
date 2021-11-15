@@ -1,9 +1,16 @@
 @import "elr-scss-functions/src/main";
 // Pagination
 
-@mixin elr-pagination() {
-  $primary-color: #1976d2;
-  $accent-color: #f81190;
+@mixin elr-pagination($config: ()) {
+  $config: extend(
+    (
+      link-color: #1976d2,
+      accent-color: #f81190,
+    ),
+    $config
+  );
+  $link-color: map-get($config, link-color);
+  $accent-color: map-get($config, accent-color);
 
   .pagination-list {
     list-style: none;
@@ -32,7 +39,7 @@
   a,
   .previous-pager,
   .next-pager {
-    color: $primary-color;
+    color: $link-color;
     text-decoration: none;
     display: block;
     transition: color 0.3s;
@@ -60,12 +67,12 @@
 @mixin elr-pagination-bar($config: ()) {
   $config: extend(
     (
-      background-color: $white,
+      background-color: #fff,
       border-radius: 5px,
-      border-color: $light-grey,
-      color: $link-color,
-      font-size: 12px,
-      centered: false,
+      border-color: #ccc,
+      color: #1976d2,
+      accent-color: #f81190,
+      font-size: 14px,
     ),
     $config
   );
@@ -74,42 +81,14 @@
   $border-radius: map-get($config, border-radius);
   $border-color: map-get($config, border-color);
   $color: map-get($config, color);
+  $accent-color: map-get($config, accent-color);
   $font-size: map-get($config, font-size);
-  $centered: map-get($config, centered);
 
-  @if ($centered) {
-    text-align: center;
-  }
+  $border: 1px solid $border-color;
 
-  .previous-pager,
-  .next-pager {
-    font-size: to-rems($font-size);
-    border: 0;
-    color: $white;
-    background-color: $color;
-    padding-left: 20px;
-    padding-right: 20px;
-
-    @if ($border-radius == 50%) {
-      border-radius: 20px;
-    } @else {
-      border-radius: $border-radius;
-    }
-
-    &:hover {
-      border: 0;
-      color: $white;
-      background-color: lighten($color, 10%);
-    }
-
-    &.disabled {
-      color: $white;
-      background-color: $light-grey;
-
-      @if ($border-color) {
-        border-color: $light-grey;
-      }
-    }
+  .pagination-list {
+    display: flex;
+    list-style: none;
   }
 
   li {
@@ -120,18 +99,18 @@
       border-radius: $border-radius 0 0 $border-radius;
 
       @if ($border-color) {
-        border-left: 1px solid $border-color;
+        border-left: $border;
 
         &.disabled,
-        &.disabled:hover {
-          border-left: 1px solid $light-grey;
+        &[disabled] {
+          border-left: $border;
         }
 
         &.active {
           border-left: 1px solid $color;
         }
 
-        &:hover {
+        &:hover:not(.disabled):not([disabled]) {
           border-left: 1px solid lighten($color, 10%);
         }
       }
@@ -141,18 +120,18 @@
       border-radius: 0 $border-radius $border-radius 0;
 
       @if ($border-color) {
-        border-right: 1px solid $border-color;
+        border-right: $border;
 
         &.disabled,
-        &.disabled:hover {
-          border-right: 1px solid $light-grey;
+        &[disabled] {
+          border-right: $border;
         }
 
         &.active {
           border-right: 1px solid $color;
         }
 
-        &:hover {
+        &:hover:not(.disabled):not([disabled]) {
           border-right: 1px solid lighten($color, 10%);
         }
       }
@@ -160,23 +139,25 @@
   }
 
   a {
-    font-size: to-rems($font-size);
-    padding: 10px 15px;
+    font-size: $font-size;
+    padding: 8px 16px;
     color: $color;
+    display: block;
     background-color: $background-color;
+    text-decoration: none;
     transition: color 0.3s ease, background-color 0.3s ease,
       border-color 0.3s ease;
 
     @if ($border-color) {
-      border: 1px solid $border-color;
+      border: $border;
     }
 
     @if ($border-color) {
       border-left: 0;
-      border-right: 1px solid $border-color;
+      border-right: $border;
     }
 
-    &:hover {
+    &:hover:not(.disabled):not([disabled]) {
       color: $background-color;
       background-color: lighten($color, 10%);
       transition: color 0.3s ease, background-color 0.3s ease,
@@ -188,105 +169,25 @@
       }
     }
 
-    &.disabled {
-      color: $white;
-      background-color: $light-grey;
+    &.disabled,
+    &[disabled] {
+      color: $background-color;
+      background-color: $border-color;
+      cursor: not-allowed;
 
       @if ($border-color) {
-        border-color: $light-grey;
+        border-color: $border-color;
       }
     }
 
     &.active {
       color: $background-color;
-      background-color: $color;
+      background-color: $accent-color;
 
       @if ($border-color) {
-        border-top: 1px solid $color;
-        border-bottom: 1px solid $color;
+        border-top: 1px solid $accent-color;
+        border-bottom: 1px solid $accent-color;
       }
-    }
-  }
-}
-
-@mixin elr-pagination-links($config: ()) {
-  $config: extend(
-    (
-      color: $link-color,
-      border-radius: 4px,
-      font-size: 14px,
-      centered: false,
-    ),
-    $config
-  );
-
-  $color: map-get($config, color);
-  $border-radius: map-get($config, border-radius);
-  $font-size: map-get($config, font-size);
-  $centered: map-get($config, centered);
-
-  @if ($centered) {
-    text-align: center;
-  }
-
-  .previous-pager,
-  .next-pager {
-    font-size: to-rems($font-size);
-    border: 0;
-    color: $white;
-    background-color: $color;
-    padding-left: 20px;
-    padding-right: 20px;
-
-    @if ($border-radius == 50%) {
-      border-radius: 20px;
-    } @else {
-      border-radius: $border-radius;
-    }
-
-    &:hover {
-      border: 0;
-      color: $white;
-      background-color: lighten($color, 10%);
-    }
-
-    &.disabled {
-      color: $white;
-      background-color: $light-grey;
-    }
-  }
-
-  li {
-    padding: 0;
-    margin: 0;
-
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-
-  a {
-    font-size: to-rems($font-size);
-    color: $color;
-    padding: 10px 13px;
-    margin-right: 4px;
-    border-radius: $border-radius;
-    transition: color 0.3s, background-color 0.3s;
-    line-height: 1;
-
-    &.active {
-      color: $white;
-      background-color: $color;
-    }
-
-    &:hover {
-      color: $white;
-      background-color: lighten($color, 10%);
-    }
-
-    &.disabled {
-      color: #666;
-      background-color: transparent;
     }
   }
 }
