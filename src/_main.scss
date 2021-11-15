@@ -1,1 +1,292 @@
 @import "elr-scss-functions/src/main";
+// Pagination
+
+@mixin elr-pagination() {
+  $primary-color: #1976d2;
+  $accent-color: #f81190;
+
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+
+  li {
+    display: block;
+    padding: 4px;
+    flex: 1;
+
+    &.prev-pager,
+    &.next-pager {
+      flex-basis: 80px;
+
+      a {
+        display: block;
+        width: 80px;
+        text-align: center;
+      }
+    }
+  }
+
+  a,
+  .previous-pager,
+  .next-pager {
+    color: $primary-color;
+    text-decoration: none;
+    display: block;
+    transition: color 0.3s;
+    padding: 4px;
+    margin: 0 4px;
+
+    &:hover {
+      color: $accent-color;
+    }
+
+    &.disabled,
+    &[disabled] {
+      cursor: not-allowed;
+      color: #666;
+    }
+  }
+
+  a {
+    &.active {
+      color: $accent-color;
+    }
+  }
+}
+
+@mixin elr-pagination-bar($config: ()) {
+  $config: extend(
+    (
+      background-color: $white,
+      border-radius: 5px,
+      border-color: $light-grey,
+      color: $link-color,
+      font-size: 12px,
+      centered: false,
+    ),
+    $config
+  );
+
+  $background-color: map-get($config, background-color);
+  $border-radius: map-get($config, border-radius);
+  $border-color: map-get($config, border-color);
+  $color: map-get($config, color);
+  $font-size: map-get($config, font-size);
+  $centered: map-get($config, centered);
+
+  @if ($centered) {
+    text-align: center;
+  }
+
+  .previous-pager,
+  .next-pager {
+    font-size: to-rems($font-size);
+    border: 0;
+    color: $white;
+    background-color: $color;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    @if ($border-radius == 50%) {
+      border-radius: 20px;
+    } @else {
+      border-radius: $border-radius;
+    }
+
+    &:hover {
+      border: 0;
+      color: $white;
+      background-color: lighten($color, 10%);
+    }
+
+    &.disabled {
+      color: $white;
+      background-color: $light-grey;
+
+      @if ($border-color) {
+        border-color: $light-grey;
+      }
+    }
+  }
+
+  li {
+    padding: 0;
+    margin: 0;
+
+    &:first-child a {
+      border-radius: $border-radius 0 0 $border-radius;
+
+      @if ($border-color) {
+        border-left: 1px solid $border-color;
+
+        &.disabled,
+        &.disabled:hover {
+          border-left: 1px solid $light-grey;
+        }
+
+        &.active {
+          border-left: 1px solid $color;
+        }
+
+        &:hover {
+          border-left: 1px solid lighten($color, 10%);
+        }
+      }
+    }
+
+    &:last-child a {
+      border-radius: 0 $border-radius $border-radius 0;
+
+      @if ($border-color) {
+        border-right: 1px solid $border-color;
+
+        &.disabled,
+        &.disabled:hover {
+          border-right: 1px solid $light-grey;
+        }
+
+        &.active {
+          border-right: 1px solid $color;
+        }
+
+        &:hover {
+          border-right: 1px solid lighten($color, 10%);
+        }
+      }
+    }
+  }
+
+  a {
+    font-size: to-rems($font-size);
+    padding: 10px 15px;
+    color: $color;
+    background-color: $background-color;
+    transition: color 0.3s ease, background-color 0.3s ease,
+      border-color 0.3s ease;
+
+    @if ($border-color) {
+      border: 1px solid $border-color;
+    }
+
+    @if ($border-color) {
+      border-left: 0;
+      border-right: 1px solid $border-color;
+    }
+
+    &:hover {
+      color: $background-color;
+      background-color: lighten($color, 10%);
+      transition: color 0.3s ease, background-color 0.3s ease,
+        border-color 0.3s ease;
+
+      @if ($border-color) {
+        border-top: 1px solid lighten($color, 10%);
+        border-bottom: 1px solid lighten($color, 10%);
+      }
+    }
+
+    &.disabled {
+      color: $white;
+      background-color: $light-grey;
+
+      @if ($border-color) {
+        border-color: $light-grey;
+      }
+    }
+
+    &.active {
+      color: $background-color;
+      background-color: $color;
+
+      @if ($border-color) {
+        border-top: 1px solid $color;
+        border-bottom: 1px solid $color;
+      }
+    }
+  }
+}
+
+@mixin elr-pagination-links($config: ()) {
+  $config: extend(
+    (
+      color: $link-color,
+      border-radius: 4px,
+      font-size: 14px,
+      centered: false,
+    ),
+    $config
+  );
+
+  $color: map-get($config, color);
+  $border-radius: map-get($config, border-radius);
+  $font-size: map-get($config, font-size);
+  $centered: map-get($config, centered);
+
+  @if ($centered) {
+    text-align: center;
+  }
+
+  .previous-pager,
+  .next-pager {
+    font-size: to-rems($font-size);
+    border: 0;
+    color: $white;
+    background-color: $color;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    @if ($border-radius == 50%) {
+      border-radius: 20px;
+    } @else {
+      border-radius: $border-radius;
+    }
+
+    &:hover {
+      border: 0;
+      color: $white;
+      background-color: lighten($color, 10%);
+    }
+
+    &.disabled {
+      color: $white;
+      background-color: $light-grey;
+    }
+  }
+
+  li {
+    padding: 0;
+    margin: 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  a {
+    font-size: to-rems($font-size);
+    color: $color;
+    padding: 10px 13px;
+    margin-right: 4px;
+    border-radius: $border-radius;
+    transition: color 0.3s, background-color 0.3s;
+    line-height: 1;
+
+    &.active {
+      color: $white;
+      background-color: $color;
+    }
+
+    &:hover {
+      color: $white;
+      background-color: lighten($color, 10%);
+    }
+
+    &.disabled {
+      color: #666;
+      background-color: transparent;
+    }
+  }
+}
