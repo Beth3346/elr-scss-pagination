@@ -6,23 +6,35 @@
     (
       link-color: #1976d2,
       accent-color: #f81190,
+      font-size: 14px,
     ),
     $config
   );
+
   $link-color: map-get($config, link-color);
   $accent-color: map-get($config, accent-color);
+  $font-size: map-get($config, font-size);
+
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 
   .pagination-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
+    flex: 1;
+    justify-content: center;
   }
 
-  li {
+  .pagination-list-item {
     display: block;
-    padding: 4px;
-    flex: 1;
+    padding: 0 4px;
+
+    // &:not(.prev-pager):not(.next-pager) {
+    //   flex: 1;
+    // }
 
     &.prev-pager,
     &.next-pager {
@@ -33,20 +45,39 @@
         width: 80px;
         text-align: center;
       }
+
+      i {
+        font-size: 90%;
+      }
+    }
+
+    &.prev-pager i {
+      margin-right: 8px;
+    }
+
+    &.next-pager i {
+      margin-left: 8px;
+    }
+
+    .pagination-placeholder {
+      display: block;
+      font-size: 18px;
+      position: relative;
+      top: -4px;
     }
   }
 
-  a,
-  .previous-pager,
-  .next-pager {
+  a {
     color: $link-color;
     text-decoration: none;
     display: block;
     transition: color 0.3s;
     padding: 4px;
     margin: 0 4px;
+    font-size: $font-size;
+    line-height: 1;
 
-    &:hover {
+    &:hover:not(.disabled):not([disabled]) {
       color: $accent-color;
     }
 
@@ -55,14 +86,14 @@
       cursor: not-allowed;
       color: #666;
     }
-  }
 
-  a {
     &.active {
       color: $accent-color;
     }
   }
 }
+
+// TODO: pagination "buttons" with rounded or square links
 
 @mixin elr-pagination-bar($config: ()) {
   $config: extend(
@@ -72,7 +103,6 @@
       border-color: #ccc,
       color: #1976d2,
       accent-color: #f81190,
-      font-size: 14px,
     ),
     $config
   );
@@ -82,18 +112,16 @@
   $border-color: map-get($config, border-color);
   $color: map-get($config, color);
   $accent-color: map-get($config, accent-color);
-  $font-size: map-get($config, font-size);
 
   $border: 1px solid $border-color;
 
-  .pagination-list {
-    display: flex;
-    list-style: none;
-  }
+  justify-content: center;
 
-  li {
-    padding: 0;
-    margin: 0;
+  .pagination-list-item {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
 
     &:first-child a {
       border-radius: $border-radius 0 0 $border-radius;
@@ -138,13 +166,15 @@
     }
   }
 
-  a {
-    font-size: $font-size;
-    padding: 8px 16px;
+  a,
+  .prev-pager a,
+  .next-pager a {
+    padding-top: 12px;
+    padding-bottom: 12px;
     color: $color;
-    display: block;
     background-color: $background-color;
-    text-decoration: none;
+    margin-left: 0;
+    margin-right: 0;
     transition: color 0.3s ease, background-color 0.3s ease,
       border-color 0.3s ease;
 
@@ -189,5 +219,10 @@
         border-bottom: 1px solid $accent-color;
       }
     }
+  }
+
+  .pagination-list-item:not(.prev-pager):not(.next-pager) a {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
