@@ -1,12 +1,13 @@
 @import "elr-scss-functions/src/main";
+@import "elr-scss-config/src/main";
 // Pagination
 
 @mixin elr-pagination($config: ()) {
   $config: extend(
     (
-      link-color: #1976d2,
-      accent-color: #f81190,
-      font-size: 14px,
+      link-color: $primary-color,
+      accent-color: $secondary-color,
+      font-size: $base-fontsize * 0.875,
     ),
     $config
   );
@@ -30,7 +31,7 @@
 
   .pagination-list-item {
     display: block;
-    padding: 0 4px;
+    padding: 0 ($base-fontsize * 0.25);
 
     // &:not(.prev-pager):not(.next-pager) {
     //   flex: 1;
@@ -52,18 +53,18 @@
     }
 
     &.prev-pager i {
-      margin-right: 8px;
+      margin-right: ($base-fontsize * 0.5);
     }
 
     &.next-pager i {
-      margin-left: 8px;
+      margin-left: ($base-fontsize * 0.5);
     }
 
     .pagination-placeholder {
       display: block;
       font-size: 18px;
       position: relative;
-      top: -4px;
+      top: -($base-fontsize * 0.25);
     }
   }
 
@@ -72,8 +73,8 @@
     text-decoration: none;
     display: block;
     transition: color 0.3s;
-    padding: 4px;
-    margin: 0 4px;
+    padding: ($base-fontsize * 0.25);
+    margin: 0 ($base-fontsize * 0.25);
     font-size: $font-size;
     line-height: 1;
 
@@ -84,7 +85,7 @@
     &.disabled,
     &[disabled] {
       cursor: not-allowed;
-      color: #666;
+      color: $gray;
     }
 
     &.active {
@@ -98,11 +99,11 @@
 @mixin elr-pagination-bar($config: ()) {
   $config: extend(
     (
-      background-color: #fff,
-      border-radius: 5px,
-      border-color: #ccc,
-      color: #1976d2,
-      accent-color: #f81190,
+      background-color: $white,
+      border-radius: $border-radius,
+      border-color: $light-gray,
+      color: $primary-color,
+      accent-color: $secondary-color,
     ),
     $config
   );
@@ -169,8 +170,8 @@
   a,
   .prev-pager a,
   .next-pager a {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: ($base-fontsize * 0.75);
+    padding-bottom: ($base-fontsize * 0.75);
     color: $color;
     background-color: $background-color;
     margin-left: 0;
@@ -222,7 +223,7 @@
   }
 
   .pagination-list-item:not(.prev-pager):not(.next-pager) a {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: $base-fontsize;
+    padding-right: $base-fontsize;
   }
 }
